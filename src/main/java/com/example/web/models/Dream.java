@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "clubs")
 public class Dream {
+    //ceva
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
