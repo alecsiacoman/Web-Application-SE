@@ -4,9 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class DreamController {
-    @GetMapping("/")
-    public String showHomePage(){
-        return "home";
+public class GalleryController {
+    @GetMapping("/gallery")
+    public String showGalleryPage(){
+        return "gallery";
     }
 }

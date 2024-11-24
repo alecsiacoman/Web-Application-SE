@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Andreea Moldovan",
+    "quote": "Innovation is key.",
+    "photo": "static/assets/img/team/1.jpg"
+  },
+  {
+    "name": "Ionela Bolcicor",
+    "quote": "Strive for excellence.",
+    "photo": "static/assets/img/team/1.jpg"
+  },
+  {
+    "name": "Lucian Moldovan",
+    "quote": "Photography is important.",
+    "photo": "src/main/resources/static/assets/img/team/1.jpg"
+  }
+]
