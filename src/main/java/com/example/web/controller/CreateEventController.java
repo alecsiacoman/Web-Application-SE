@@ -1,6 +1,7 @@
 package com.example.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,16 @@ import com.example.web.services.EventService;
 
 @Controller
 public class CreateEventController {
+    @Value("${D:\\Facultate\\AN3\\An3Sem1\\SE\\web\\web\\src\\main\\resources\\data\\request-events.json}")
+    private String requestJsonPath;
+
+    @Value("${D:\\Facultate\\AN3\\An3Sem1\\SE\\web\\web\\src\\main\\resources\\data\\booked-events.json}")
+    private String bookedJsonPath;
+
+    // private final ObjectMapper objectMapper = new ObjectMapper();
+
+    // private List<EventRequest> requests = new ArrayList<>();
+    // private List<EventRequest> booked = new ArrayList<>();
     
     @Autowired
     private EventService eventService;
@@ -19,25 +30,15 @@ public class CreateEventController {
     @GetMapping("/book-event")
     public String showBookEventPage(Model model) {
         model.addAttribute("eventRequest", new EventRequest());
-        model.addAttribute("availableDates", eventService.getAvailableDates());
+        //model.addAttribute("availableDates", eventService.getAvailableDates());
         return "book-event";
     }
 
     @PostMapping("/book-event")
     public String submitEventRequest(@ModelAttribute EventRequest eventRequest, Model model) {
-        boolean success = eventService.saveEventRequest(eventRequest);
-
-        if (success) {
-            model.addAttribute("message", "Your event request has been submitted successfully!");
-            model.addAttribute("messageType", "success");
-        } else {
-            model.addAttribute("message", "There was an issue submitting your request. Please try again.");
-            model.addAttribute("messageType", "error");
-        }
-
-        model.addAttribute("availableDates", eventService.getAvailableDates());
-        model.addAttribute("eventRequest", eventRequest);
-        
+        eventService.saveEventRequest(eventRequest);
+        model.addAttribute("message", "Your event request has been submitted successfully.");
+        model.addAttribute("messageType", "success");
         return "book-event";
     }
 }

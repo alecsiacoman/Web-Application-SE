@@ -1,36 +1,48 @@
 package com.example.web.services;
 
-import java.time.LocalDate;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.example.web.models.EventRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 @Service
 public class EventService {
-    private List<LocalDate> bookedDates = new ArrayList<>();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final String filePath = "src/main/resources/data/request-events.json"; // Use relative path
+
     private List<EventRequest> eventRequests = new ArrayList<>();
 
-    public List<LocalDate> getAvailableDates(){
-        List<LocalDate> availableDates = new ArrayList<>();
-        LocalDate today = LocalDate.now();
-        for (int i = 0; i < 30; i++) {
-            LocalDate date = today.plusDays(i);
-            if (!bookedDates.contains(date)) {
-                availableDates.add(date);
-            }
-        }
-        return availableDates;
+    public EventService(){
+        loadRequests();
     }
 
-    public boolean saveEventRequest(EventRequest request) {
-        if (!bookedDates.contains(request.getEventDate())) {
-            bookedDates.add(request.getEventDate());
-            eventRequests.add(request);
-            return true;
+    private void loadRequests(){
+        try{
+            File file = new File(filePath);
+            if(file.exists()){
+                List<EventRequest> loadedRequests = objectMapper.readValue(file, new TypeReference<List<EventRequest>>() {});
+                eventRequests.addAll(loadedRequests);
+            } 
+        } catch (IOException e){
+            e.printStackTrace();
         }
-        return false;
+    }
+
+    public void saveEventRequest(EventRequest eventRequest){
+        eventRequests.add(eventRequest); 
+
+        try{
+            objectMapper.writeValue(new File(filePath), eventRequests); 
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+        System.out.println("Event Request Saved: " + eventRequest);
     }
 }

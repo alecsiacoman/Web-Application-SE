@@ -1,18 +1,12 @@
 package com.example.web.models;
 
-import java.time.LocalDate;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 public class EventRequest {
     private String name;
+    private String email;
     private String phone;
     private String theme;
     private String address;
-    private String location;
-
-    @DateTimeFormat(pattern = "yy-mm-dd")
-    private LocalDate eventDate;
+    private String date;
 
     public String getName() {
         return name;
@@ -46,21 +40,24 @@ public class EventRequest {
         this.address = address;
     }
 
-    public String getLocation() {
-        return location;
+    public String getEventDate() {
+        return date;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setEventDate(String eventDate) {
+        this.date = eventDate;
     }
 
-    public LocalDate getEventDate() {
-        return eventDate;
+    @Override
+    public String toString() {
+        return "EventRequest{" +
+               "name='" + name + '\'' +
+               ", email='" + email + '\'' +
+               ", phone='" + phone + '\'' +
+               ", date='" + date + '\'' +
+               ", theme='" + theme + '\'' +
+               ", address='" + address + '\'' +
+               '}';
     }
-
-    public void setEventDate(LocalDate eventDate) {
-        this.eventDate = eventDate;
-    }
-
     
 }
