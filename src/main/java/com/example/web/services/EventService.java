@@ -13,37 +13,34 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 @Service
 public class EventService {
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    private final String filePath = "src/main/resources/data/request-events.json"; // Use relative path
+    private final ObjectMapper objectMapper;
+    private static final String REQUEST_JSON_PATH = "web/src/main/resources/data/request-events.json";
 
     private List<EventRequest> eventRequests;
 
     public EventService(){
-        eventRequests = new ArrayList<>();
-        //loadRequests();
+        this.eventRequests = new ArrayList<>();
+        this.objectMapper = new ObjectMapper();  
     }
 
-    private void loadRequests(){
-        try{
-            File file = new File(filePath);
-            if(file.exists()){
-                List<EventRequest> loadedRequests = objectMapper.readValue(file, new TypeReference<List<EventRequest>>() {});
-                eventRequests.addAll(loadedRequests);
-            } 
-        } catch (IOException e){
+    public void saveEventRequest(EventRequest eventRequest) {
+        try {
+            File file = new File(REQUEST_JSON_PATH);
+            List<EventRequest> eventRequests = new ArrayList<>();
+
+            if (file.exists() && file.length() > 0) {
+                eventRequests = objectMapper.readValue(file, new TypeReference<List<EventRequest>>() {});
+            }
+
+            eventRequests.add(eventRequest);
+
+            objectMapper.writeValue(file, eventRequests);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void saveEventRequest(EventRequest eventRequest){
-        eventRequests.add(eventRequest); 
-
-        // try{
-        //     objectMapper.writeValue(new File(filePath), eventRequests); 
-        // } catch (IOException e){
-        //     e.printStackTrace();
-        // }
-
-        System.out.println("Event Request Saved: " + eventRequest);
+    public List<EventRequest> getEventRequests() {
+        return new ArrayList<>(eventRequests);
     }
 }

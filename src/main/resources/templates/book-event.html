@@ -40,18 +40,20 @@
         }
     </style>
 
-    <script>
-        $(document).ready(function () {
-            $("#date").datepicker({
-                dateFormat: "yy-mm-dd",
-                beforeShowDay: function (date) {
-                    const disabledDates = /*[[${disabledDates}]]*/ [];
-                    const dateString = $.datepicker.formatDate("yy-mm-dd", date);
-                    return [!disabledDates.includes(dateString)];
-                }
-            });
+<script>
+    $(document).ready(function () {
+        $("#date").datepicker({
+            dateFormat: "yy-mm-dd",
+            beforeShowDay: function (date) {
+                const disabledDates = /*[[${disabledDates}]]*/ [];
+                const dateString = $.datepicker.formatDate("yy-mm-dd", date);
+                return [!disabledDates.includes(dateString)];
+            }
         });
-    </script>
+
+    });
+</script>
+
 
 </head>
 <body layout:fragment="body" id="page-top">
