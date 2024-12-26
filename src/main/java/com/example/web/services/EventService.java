@@ -16,10 +16,11 @@ public class EventService {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final String filePath = "src/main/resources/data/request-events.json"; // Use relative path
 
-    private List<EventRequest> eventRequests = new ArrayList<>();
+    private List<EventRequest> eventRequests;
 
     public EventService(){
-        loadRequests();
+        eventRequests = new ArrayList<>();
+        //loadRequests();
     }
 
     private void loadRequests(){
@@ -37,11 +38,11 @@ public class EventService {
     public void saveEventRequest(EventRequest eventRequest){
         eventRequests.add(eventRequest); 
 
-        try{
-            objectMapper.writeValue(new File(filePath), eventRequests); 
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+        // try{
+        //     objectMapper.writeValue(new File(filePath), eventRequests); 
+        // } catch (IOException e){
+        //     e.printStackTrace();
+        // }
 
         System.out.println("Event Request Saved: " + eventRequest);
     }

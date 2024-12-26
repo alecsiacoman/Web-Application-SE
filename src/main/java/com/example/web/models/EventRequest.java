@@ -1,12 +1,35 @@
 package com.example.web.models;
 
+import java.time.LocalDate;
+
+import org.springframework.cglib.core.Local;
+import org.springframework.stereotype.Component;
+
+@Component
 public class EventRequest {
     private String name;
     private String email;
     private String phone;
     private String theme;
     private String address;
-    private String date;
+    private LocalDate date;
+
+    public String getEmail(){
+        return email;
+    }
+
+    public LocalDate getDate(){
+        return date;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
 
     public String getName() {
         return name;

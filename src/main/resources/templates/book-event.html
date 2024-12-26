@@ -58,21 +58,21 @@
     <section class="page-section bg-light" id="portfolio">
         <div class = "container">
             <h1>Book an Event</h1>
-            <form method="post" th:action="@{/book-event}" th:object="${eventRequest}">
+            <form method="post" th:action="@{/book-event}" th:object="${eventRequest}"> 
                 <label for="name">Your Name:</label>
-                <input type="text" id="name" name="name" th:text="*{name}" required />
+                <input type="text" id="name" name="name" th:field="*{name}" required />
 
                 <label for="email">Your Email:</label>
-                <input type="text" id="email" name="email" th:text="*{email}" required />
+                <input type="text" id="email" name="email" th:field="*{email}" required />
 
                 <label for="phone">Phone Number:</label>
-                <input type="text" id="phone" name="phone" th:text="*{phone}" required />
+                <input type="text" id="phone" name="phone" th:field="*{phone}" required />
 
                 <label for="date">Select a Date:</label>
-                <input type="text" id="date" name="date" th:text="*{date}" required />
+                <input type="text" id="date" name="date" th:field="*{date}" required />
 
                 <label for="theme">Theme:</label>
-                <select id="theme" name="theme" th:text="*{theme}" required>
+                <select id="theme" name="theme" th:field="*{theme}" required>
                     <option value="christening">Christening</option>
                     <option value="birthday">Birthday</option>
                     <option value="wedding">Wedding</option>
@@ -80,7 +80,7 @@
                 </select>
 
                 <label for="address">Address:</label>
-                <textarea id="address" name="address" th:text="*{address}" required></textarea>
+                <textarea id="address" name="address" th:field="*{address}" required></textarea>
 
                 <button type="submit">Submit</button>
             </form>

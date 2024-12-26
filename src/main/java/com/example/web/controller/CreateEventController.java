@@ -1,5 +1,8 @@
 package com.example.web.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -19,26 +22,20 @@ public class CreateEventController {
     @Value("${D:\\Facultate\\AN3\\An3Sem1\\SE\\web\\web\\src\\main\\resources\\data\\booked-events.json}")
     private String bookedJsonPath;
 
-    // private final ObjectMapper objectMapper = new ObjectMapper();
-
-    // private List<EventRequest> requests = new ArrayList<>();
-    // private List<EventRequest> booked = new ArrayList<>();
-    
     @Autowired
     private EventService eventService;
 
     @GetMapping("/book-event")
     public String showBookEventPage(Model model) {
         model.addAttribute("eventRequest", new EventRequest());
-        //model.addAttribute("availableDates", eventService.getAvailableDates());
         return "book-event";
     }
 
     @PostMapping("/book-event")
     public String submitEventRequest(@ModelAttribute EventRequest eventRequest, Model model) {
+        System.out.println(eventRequest);
+        model.addAttribute("message", "Event booked successfully");
         eventService.saveEventRequest(eventRequest);
-        model.addAttribute("message", "Your event request has been submitted successfully.");
-        model.addAttribute("messageType", "success");
         return "book-event";
     }
 }
