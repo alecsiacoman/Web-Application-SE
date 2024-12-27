@@ -32,9 +32,10 @@ public class EventService {
      */
     public void saveEventRequest(EventRequest eventRequest) {
         if (validateEventRequest(eventRequest)) {
-                long nextId = eventRequests.stream().mapToLong(EventRequest::getId).max().orElse(0) + 1;
-                eventRequest.setId(nextId);
-                saveToJson(eventRequest, REQUEST_JSON_PATH, eventRequests);
+                long id = eventRequests.size() > bookedEvents.size() ? eventRequests.size() + 1 : bookedEvents.size() + 1;
+                eventRequest.setId(id);
+                eventRequests.add(eventRequest);
+                reloadJson(REQUEST_JSON_PATH, eventRequests);
         } else {
             throw new IllegalArgumentException("Invalid EventRequest: Validation failed.");
         }
@@ -98,38 +99,39 @@ public class EventService {
     }
 
     public void acceptEventRequest(Long id){
-        Optional<EventRequest> event = findEventById(id);
+        Optional<EventRequest> event = findEventById(id, eventRequests);
         event.ifPresent(eventRequest -> {
-            saveToJson(eventRequest, BOOKED_JSON_PATH, bookedEvents);
+            bookedEvents.add(eventRequest);
             eventRequests.remove(eventRequest);
-            reloadRequests();
+            reloadJson(REQUEST_JSON_PATH, eventRequests);
+            reloadJson(BOOKED_JSON_PATH, bookedEvents);
         });
     }
 
     public void declineEventRequest(Long id){
-        Optional<EventRequest> event = findEventById(id);
+        Optional<EventRequest> event = findEventById(id, eventRequests);
         event.ifPresent(eventRequest -> {
             eventRequests.remove(eventRequest);
-            reloadRequests();
+            reloadJson(REQUEST_JSON_PATH, eventRequests);
+        });
+    }
+    
+    public void finishEvent(Long id){
+        Optional<EventRequest> event = findEventById(id, bookedEvents);
+        event.ifPresent(eventRequest -> {
+            bookedEvents.remove(eventRequest);
+            System.out.println("Am ajuns aici");
+            reloadJson(BOOKED_JSON_PATH, bookedEvents);
         });
     }
 
-    private Optional<EventRequest> findEventById(Long id) {
-        return eventRequests.stream().filter(event -> event.getId().equals(id)).findFirst();
+    private Optional<EventRequest> findEventById(Long id, List<EventRequest> list) {
+        return list.stream().filter(event -> event.getId().equals(id)).findFirst();
     }
 
-    private void saveToJson(EventRequest eventRequest, String path, List<EventRequest> list){
+    private void reloadJson(String file, List<EventRequest> list){
         try {
-            list.add(eventRequest);
-            objectMapper.writeValue(new File(path), list);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to save event request: " + e.getMessage(), e);
-        }
-    }
-
-    private void reloadRequests(){
-        try {
-            objectMapper.writeValue(new File(REQUEST_JSON_PATH), eventRequests);
+            objectMapper.writeValue(new File(file), list);
         } catch (IOException e) {
             e.printStackTrace();
         }

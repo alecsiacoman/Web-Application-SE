@@ -59,4 +59,12 @@ public class EventController {
         eventService.declineEventRequest(id);
         return "{\"status\": \"success\"}";
     }
+
+    @PostMapping("/admin-events/finish/{id}")
+    @ResponseBody
+    public String finishEventRequest(@PathVariable Long id){
+        System.out.println("Am ajuns aici controller");
+        eventService.finishEvent(id);
+        return "{\"status\": \"success\"}";
+    }
 }

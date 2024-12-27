@@ -37,6 +37,10 @@
                     <p class="card-text" th:text="'Date: ' + ${bookedEvent.date}"></p>
                     <p class="card-text" th:text="'Theme: ' + ${bookedEvent.theme}"></p>
                     <p class="card-text" th:text="'Address: ' + ${bookedEvent.address}"></p>
+                    <button class="btn btn-success me-2"
+                        th:onclick="|handleAction(${bookedEvent.id}, 'finish')|"> 
+                            Done 
+                    </button>
                 </div>
             </div>
         </div>
@@ -44,11 +48,9 @@
 
     <script>
        function handleAction(id, action) {
-            console.log(`Action: ${action}, ID: ${id}`); // Debugging log
             const confirmation = confirm(`Are you sure you want to ${action} this event?`);
             if (confirmation) {
                 const url = `/admin-events/${action}/${id}`;
-                console.log(`URL: ${url}`); // Debugging log
                 fetch(url, {
                     method: 'POST',
                     headers: {
