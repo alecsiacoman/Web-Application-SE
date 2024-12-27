@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ public class EventService {
         this.objectMapper = new ObjectMapper();
         this.eventRequests = loadEventRequestsFromFile(REQUEST_JSON_PATH);
         this.bookedEvents = loadEventRequestsFromFile(BOOKED_JSON_PATH);
+        verifyFileIntegrity();
     }
 
     /**
@@ -34,6 +36,11 @@ public class EventService {
         if (validateEventRequest(eventRequest)) {
                 long id = eventRequests.size() > bookedEvents.size() ? eventRequests.size() + 1 : bookedEvents.size() + 1;
                 eventRequest.setId(id);
+
+                if(!isIdUnique(eventRequest.getId())){
+                    throw new IllegalArgumentException("EventRequest ID must be unique.");
+                }
+
                 eventRequests.add(eventRequest);
                 reloadJson(REQUEST_JSON_PATH, eventRequests);
         } else {
@@ -134,6 +141,33 @@ public class EventService {
             objectMapper.writeValue(new File(file), list);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public boolean eventExists(Long id, List<EventRequest> list){
+        boolean exists = list.stream().filter(event -> event.getId().equals(id)).count() == 1 ? true : false;
+        return exists;
+    }
+
+    public List<Long> getAllEventIds() {
+        List<Long> requestIds = getEventRequests().stream().map(EventRequest::getId).collect(Collectors.toList());        
+        List<Long> bookedIds = getBookedEvents().stream().map(EventRequest::getId).collect(Collectors.toList());        
+        requestIds.addAll(bookedIds);
+        return requestIds;
+    }
+
+    private boolean isIdUnique(Long id){
+        return !getAllEventIds().contains(id);
+    }
+
+    private void verifyFileIntegrity() {
+        List<Long> allIds = getAllEventIds();
+        List<Long> duplicateIds = allIds.stream()
+                .filter(id -> allIds.stream().filter(id::equals).count() > 1)
+                .collect(Collectors.toList());
+
+        if (!duplicateIds.isEmpty()) {
+            throw new IllegalStateException("Duplicate IDs detected: " + duplicateIds);
         }
     }
 }

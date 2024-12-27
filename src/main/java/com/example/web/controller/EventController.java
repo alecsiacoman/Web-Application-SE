@@ -14,6 +14,7 @@ import com.example.web.models.EventRequest;
 import com.example.web.services.EventService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 @Controller
 public class EventController {
@@ -34,7 +35,7 @@ public class EventController {
             model.addAttribute("eventRequest", eventRequest);
             return "book-event";
         }
-
+        
         eventService.saveEventRequest(eventRequest);
         return "redirect:/book-event";
     }
@@ -48,22 +49,32 @@ public class EventController {
 
     @PostMapping("/admin-events/accept/{id}")
     @ResponseBody
-    public String acceptEventRequest(@PathVariable Long id) {
+    public String acceptEventRequest(@PathVariable @NotNull Long id) {
+        if(!eventService.eventExists(id, eventService.getEventRequests())){
+            return "{\"status\": \"error\", \"message\": \"Event not found\"}"; 
+        }
         eventService.acceptEventRequest(id);
         return "{\"status\": \"success\"}";
     }
 
     @PostMapping("/admin-events/decline/{id}")
     @ResponseBody
-    public String declineEventRequest(@PathVariable Long id) {
+    public String declineEventRequest(@PathVariable @NotNull Long id) {
+        if(!eventService.eventExists(id, eventService.getEventRequests())){
+            return "{\"status\": \"error\", \"message\": \"Event not found\"}"; 
+        }
+
         eventService.declineEventRequest(id);
         return "{\"status\": \"success\"}";
     }
 
     @PostMapping("/admin-events/finish/{id}")
     @ResponseBody
-    public String finishEventRequest(@PathVariable Long id){
-        System.out.println("Am ajuns aici controller");
+    public String finishEventRequest(@PathVariable @NotNull Long id){
+        if(!eventService.eventExists(id, eventService.getBookedEvents())){
+            return "{\"status\": \"error\", \"message\": \"Event not found\"}"; 
+        }
+
         eventService.finishEvent(id);
         return "{\"status\": \"success\"}";
     }
