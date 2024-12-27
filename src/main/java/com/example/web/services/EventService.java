@@ -93,6 +93,10 @@ public class EventService {
         return new ArrayList<>(eventRequests);
     }
 
+    public List<EventRequest> getBookedEvents() {
+        return new ArrayList<>(bookedEvents);
+    }
+
     public void acceptEventRequest(Long id){
         Optional<EventRequest> event = findEventById(id);
         event.ifPresent(eventRequest -> {
@@ -116,7 +120,7 @@ public class EventService {
 
     private void saveToJson(EventRequest eventRequest, String path, List<EventRequest> list){
         try {
-            eventRequests.add(eventRequest);
+            list.add(eventRequest);
             objectMapper.writeValue(new File(path), list);
         } catch (IOException e) {
             throw new RuntimeException("Failed to save event request: " + e.getMessage(), e);

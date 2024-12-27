@@ -27,6 +27,19 @@
                 </div>
             </div>
         </div>
+        <span></span>
+        <div th:each="bookedEvent : ${bookedEvent}">
+            <div th:id="'event-' + ${bookedEvent.id}" class="card my-3">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="'Name: ' + ${bookedEvent.name}"></h5>
+                    <p class="card-text" th:text="'Email: ' + ${bookedEvent.email}"></p>
+                    <p class="card-text" th:text="'Phone: ' + ${bookedEvent.phone}"></p>
+                    <p class="card-text" th:text="'Date: ' + ${bookedEvent.date}"></p>
+                    <p class="card-text" th:text="'Theme: ' + ${bookedEvent.theme}"></p>
+                    <p class="card-text" th:text="'Address: ' + ${bookedEvent.address}"></p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -45,10 +58,6 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.status === "success") {
-                            var elements = document.querySelectorAll('[id^="event-"]');
-elements.forEach(function(element) {
-    console.log(element.id); // Log each element's id
-});
                             const eventElement = document.getElementById(`event-${id}`);
                         if (eventElement) {
                             eventElement.remove(); // Safely remove if element exists

@@ -42,6 +42,7 @@ public class EventController {
     @GetMapping("/admin-events")
     public String showAdminEventsPage(Model model){
         model.addAttribute("eventRequest", eventService.getEventRequests());
+        model.addAttribute("bookedEvent", eventService.getBookedEvents());
         return "admin-events";
     }
 
