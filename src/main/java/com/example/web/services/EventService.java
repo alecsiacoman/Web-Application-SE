@@ -15,7 +15,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 public class EventService {
     private final ObjectMapper objectMapper;
     private static final String REQUEST_JSON_PATH = "web/src/main/resources/data/request-events.json";
-
     private List<EventRequest> eventRequests;
 
     public EventService(){
@@ -24,20 +23,26 @@ public class EventService {
     }
 
     public void saveEventRequest(EventRequest eventRequest) {
-        try {
-            File file = new File(REQUEST_JSON_PATH);
-            List<EventRequest> eventRequests = new ArrayList<>();
-
-            if (file.exists() && file.length() > 0) {
-                eventRequests = objectMapper.readValue(file, new TypeReference<List<EventRequest>>() {});
+        if(validateEventRequest(eventRequest)){
+            try {
+                File file = new File(REQUEST_JSON_PATH);
+                if (file.exists() && file.length() > 0) {
+                    eventRequests = objectMapper.readValue(file, new TypeReference<List<EventRequest>>() {});
+                }
+    
+                eventRequests.add(eventRequest);
+    
+                objectMapper.writeValue(file, eventRequests);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-            eventRequests.add(eventRequest);
-
-            objectMapper.writeValue(file, eventRequests);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+    }
+
+    private boolean validateEventRequest(EventRequest eventRequest){
+        if(eventRequest.getName() == null || eventRequest.getEmail() == null || eventRequest.getPhone() == null)
+            return false;
+        return true;
     }
 
     public List<EventRequest> getEventRequests() {

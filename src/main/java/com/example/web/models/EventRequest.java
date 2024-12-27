@@ -1,14 +1,31 @@
 package com.example.web.models;
 
 import org.springframework.stereotype.Component;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Component
 public class EventRequest {
+    @NotBlank(message = "Name is requierd!")
+    @Size(min = 3, max = 100, message = "Name must be between 3 and 100 characters")
     private String name;
+
+    @Email(message = "Please provide a valid email!")
     private String email;
+
+    @NotBlank(message = "Phone number is required!")
+    @Pattern(regexp = "\\d{10}", message = "Phone number must be 10 digits")
     private String phone;
+
+    @NotBlank(message = "Date is required!")
     private String date;
+
+    @NotBlank(message = "Theme is required!")
     private String theme;
+
+    @NotBlank(message = "Address is required!")
     private String address;
 
     public String getName() { return name; }
