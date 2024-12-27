@@ -1,0 +1,69 @@
+<html
+        xmlns:th="http://thmyelead.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+<body layout:fragment="body" id="page-top">
+    <div class="container">
+        <h1 class="my-4">Event Requests</h1>
+        <div th:each="eventRequest : ${eventRequest}">
+            <div th:id="'event-' + ${eventRequest.id}" class="card my-3">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="'Name: ' + ${eventRequest.name}"></h5>
+                    <p class="card-text" th:text="'Email: ' + ${eventRequest.email}"></p>
+                    <p class="card-text" th:text="'Phone: ' + ${eventRequest.phone}"></p>
+                    <p class="card-text" th:text="'Date: ' + ${eventRequest.date}"></p>
+                    <p class="card-text" th:text="'Theme: ' + ${eventRequest.theme}"></p>
+                    <p class="card-text" th:text="'Address: ' + ${eventRequest.address}"></p>
+                    <div class="d-flex">
+                        <button class="btn btn-success me-2"
+                        th:onclick="|handleAction(${eventRequest.id}, 'accept')|"> 
+                            Accept 
+                        </button>
+                            <button class="btn btn-danger" 
+                            th:onclick="|handleAction(${eventRequest.id}, 'decline')|">
+                            Decline
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       function handleAction(id, action) {
+            console.log(`Action: ${action}, ID: ${id}`); // Debugging log
+            const confirmation = confirm(`Are you sure you want to ${action} this event?`);
+            if (confirmation) {
+                const url = `/admin-events/${action}/${id}`;
+                console.log(`URL: ${url}`); // Debugging log
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === "success") {
+                            var elements = document.querySelectorAll('[id^="event-"]');
+elements.forEach(function(element) {
+    console.log(element.id); // Log each element's id
+});
+                            const eventElement = document.getElementById(`event-${id}`);
+                        if (eventElement) {
+                            eventElement.remove(); // Safely remove if element exists
+                            console.log(`Successfully ${action}ed event with ID: ${id}`);
+                        } else {
+                            console.error(`Element with ID event-${id} not found.`);
+                        }
+                    }
+                    })
+                    .catch(error => {
+                        console.error('Error occurred:', error);
+                    });
+            }
+        }
+    </script>
+
+</body>
+</html>

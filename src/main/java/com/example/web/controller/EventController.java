@@ -6,7 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.web.models.EventRequest;
 import com.example.web.services.EventService;
@@ -35,5 +37,25 @@ public class EventController {
 
         eventService.saveEventRequest(eventRequest);
         return "redirect:/book-event";
+    }
+
+    @GetMapping("/admin-events")
+    public String showAdminEventsPage(Model model){
+        model.addAttribute("eventRequest", eventService.getEventRequests());
+        return "admin-events";
+    }
+
+    @PostMapping("/admin-events/accept/{id}")
+    @ResponseBody
+    public String acceptEventRequest(@PathVariable Long id) {
+        eventService.acceptEventRequest(id);
+        return "{\"status\": \"success\"}";
+    }
+
+    @PostMapping("/admin-events/decline/{id}")
+    @ResponseBody
+    public String declineEventRequest(@PathVariable Long id) {
+        eventService.declineEventRequest(id);
+        return "{\"status\": \"success\"}";
     }
 }
