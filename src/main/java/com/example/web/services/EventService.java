@@ -2,6 +2,8 @@ package com.example.web.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +36,7 @@ public class EventService {
      */
     public void saveEventRequest(EventRequest eventRequest) {
         if (validateEventRequest(eventRequest)) {
-                long id = eventRequests.size() > bookedEvents.size() ? eventRequests.size() + 1 : bookedEvents.size() + 1;
+                long id = getNextAvailableId();
                 eventRequest.setId(id);
 
                 if(!isIdUnique(eventRequest.getId())){
@@ -46,6 +48,17 @@ public class EventService {
         } else {
             throw new IllegalArgumentException("Invalid EventRequest: Validation failed.");
         }
+    }
+
+    private long getNextAvailableId() {
+        List<EventRequest> allEvents = new ArrayList<>();
+        allEvents.addAll(eventRequests);
+        allEvents.addAll(bookedEvents);
+    
+        return allEvents.stream()
+                .mapToLong(EventRequest::getId)
+                .max()
+                .orElse(0L) + 1;
     }
 
     /**
@@ -169,5 +182,17 @@ public class EventService {
         if (!duplicateIds.isEmpty()) {
             throw new IllegalStateException("Duplicate IDs detected: " + duplicateIds);
         }
+    }
+
+    public boolean isDateAvailable(String date){
+        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        if(date.equals(today))
+            return false; 
+            
+        long count = bookedEvents.stream()
+                        .filter(event -> event.getDate().equals(date))
+                        .count();
+        return count < 2;
     }
 }
