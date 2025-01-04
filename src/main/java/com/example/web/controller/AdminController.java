@@ -16,7 +16,7 @@ public class AdminController {
     @GetMapping("/login-as-admin")
     public String loginAsAdmin(HttpSession session){
         session.setAttribute("role", "admin");
-        return "redirect:/admin-events";
+        return "redirect:/";
     }
 
     @GetMapping("/sign-out")
