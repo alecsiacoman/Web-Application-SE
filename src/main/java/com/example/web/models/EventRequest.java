@@ -1,5 +1,7 @@
 package com.example.web.models;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import org.springframework.stereotype.Component;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Email;
@@ -55,5 +57,13 @@ public class EventRequest {
                 ", theme='" + theme + '\'' +
                 ", address='" + address + '\'' +
                 '}';
+    }
+
+    public boolean isDateValid(){
+        if(date != null && !date.isEmpty()){
+            LocalDate eventDate = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
+            return !eventDate.isBefore(LocalDate.now());
+        }
+        return false;
     }
 }
