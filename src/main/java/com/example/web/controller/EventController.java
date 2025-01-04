@@ -32,11 +32,6 @@ public class EventController {
 
     @PostMapping("/book-event")
     public String submitEventRequest(@Valid @ModelAttribute EventRequest eventRequest, BindingResult bindingResult, Model model) {
-        //date validation
-        if(!eventRequest.isDateValid()){
-            bindingResult.rejectValue("date", "error.date", "The selected date cannot be today or in the past.");
-        }
-
         if(bindingResult.hasErrors()){
             model.addAttribute("eventRequest", eventRequest);
             return "book-event";
