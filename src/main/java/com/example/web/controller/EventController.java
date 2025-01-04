@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.web.models.EventRequest;
 import com.example.web.services.EventService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -41,10 +42,17 @@ public class EventController {
     }
 
     @GetMapping("/admin-events")
-    public String showAdminEventsPage(Model model){
-        model.addAttribute("eventRequest", eventService.getEventRequests());
-        model.addAttribute("bookedEvent", eventService.getBookedEvents());
-        return "admin-events";
+    public String showAdminEventsPage(HttpSession session, Model model){
+        String role = (String) session.getAttribute("role");
+
+        if("admin".equals(role)){
+            model.addAttribute("eventRequest", eventService.getEventRequests());
+            model.addAttribute("bookedEvent", eventService.getBookedEvents());
+            return "admin-events";
+        } else {
+            return "redirect:/access-denied";
+        }
+
     }
 
     @PostMapping("/admin-events/accept/{id}")
