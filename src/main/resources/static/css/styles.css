@@ -10986,11 +10986,26 @@ header.masthead .masthead-heading {
     margin-bottom: 4rem;
   }
 }
+
 #portfolio .portfolio-item {
-  max-width: 26rem;
+  width: 100%;
+  max-width: 26rem; /* Max width of the portfolio item */
+  height: 50rem; /* Increased height for more space for the caption (adjust as needed) */
   margin-left: auto;
   margin-right: auto;
+  overflow: hidden; /* Ensures nothing goes outside the container */
+  position: relative; /* Keeps the positioning context for the image and caption */
 }
+
+/* Ensure the image fits the container but doesn't stretch or get cropped */
+#portfolio .portfolio-item img {
+  width: 100%; /* Ensure image takes full width */
+  height: 100%; /* Ensure image takes full height */
+  object-fit: contain; /* Ensures the image is fully contained without cropping */
+  margin: 0 auto; /* Centers the image if it doesn't take full width/height */
+}
+
+
 #portfolio .portfolio-item .portfolio-link {
   position: relative;
   display: block;
