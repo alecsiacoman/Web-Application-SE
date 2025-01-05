@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.web.models.EventRequest;
 import com.example.web.services.EventService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -31,6 +33,7 @@ public class EventController {
 
     @PostMapping("/book-event")
     public String submitEventRequest(@Valid @ModelAttribute EventRequest eventRequest, BindingResult bindingResult, Model model) {
+
         if(bindingResult.hasErrors()){
             model.addAttribute("eventRequest", eventRequest);
             return "book-event";
@@ -41,10 +44,17 @@ public class EventController {
     }
 
     @GetMapping("/admin-events")
-    public String showAdminEventsPage(Model model){
-        model.addAttribute("eventRequest", eventService.getEventRequests());
-        model.addAttribute("bookedEvent", eventService.getBookedEvents());
-        return "admin-events";
+    public String showAdminEventsPage(HttpSession session, Model model){
+        String role = (String) session.getAttribute("role");
+
+        if("admin".equals(role)){
+            model.addAttribute("eventRequest", eventService.getEventRequests());
+            model.addAttribute("bookedEvent", eventService.getBookedEvents());
+            return "admin-events";
+        } else {
+            return "redirect:/access-denied";
+        }
+
     }
 
     @PostMapping("/admin-events/accept/{id}")
@@ -78,4 +88,12 @@ public class EventController {
         eventService.finishEvent(id);
         return "{\"status\": \"success\"}";
     }
+
+    
+    @GetMapping("/check-date-availability")
+    @ResponseBody
+    public boolean checkDateAvailability(@RequestParam("date") String date) {
+        return eventService.isDateAvailable(date);
+    }
+
 }

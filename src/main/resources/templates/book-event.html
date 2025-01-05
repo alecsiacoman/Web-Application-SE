@@ -46,17 +46,30 @@
     </style>
 
 <script>
-    $(document).ready(function () {
-        $("#date").datepicker({
-            dateFormat: "yy-mm-dd",
-            beforeShowDay: function (date) {
-                const disabledDates = /*[[${disabledDates}]]*/ [];
-                const dateString = $.datepicker.formatDate("yy-mm-dd", date);
-                return [!disabledDates.includes(dateString)];
-            }
-        });
+   $(document).ready(function () {
+     $("#date").datepicker({
+        dateFormat: "yy-mm-dd",
+        minDate: 0, 
+        beforeShowDay: function (date) {
+            const dateString = $.datepicker.formatDate("yy-mm-dd", date);
+            
+            let isAvailable = false;
 
+            $.ajax({
+                url: "/check-date-availability",  
+                type: "GET",
+                data: { date: dateString },
+                async: false, 
+                success: function(response) {
+                    isAvailable = response;  
+                }
+            });
+
+            return [isAvailable]; 
+        }
     });
+});
+
 </script>
 
 
