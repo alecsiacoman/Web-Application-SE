@@ -3,118 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dream Decorations - Recommendations</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f8f8;
-            color: #333;
-        }
-        .header {
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 1rem;
-            background-color: white;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        .title {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .recommendation {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            justify-content: center;
-        }
-        .recommendation-item {
-            width: 300px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-        }
-        .recommendation-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        .recommendation-item .details {
-            padding: 1rem;
-            text-align: center;
-        }
-        .recommendation-item .details h3 {
-            margin: 0 0 0.5rem;
-            font-size: 1.2rem;
-            color: #4CAF50;
-        }
-        .recommendation-item .details p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: #666;
-        }
-        .footer {
-            text-align: center;
-            padding: 1rem;
-            margin-top: 2rem;
-            background-color: #4CAF50;
-            color: white;
-        }
-    </style>
+    <title>Event Theme Recommendation</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<div class="header">
-    <h1>Dream Decorations</h1>
-    <p>Find the perfect decor for your special event</p>
-</div>
-
 <div class="container">
-    <div class="title">
-        <h2>Recommended Decorations</h2>
-        <p>Based on your selected event type: <strong id="event-type">Wedding</strong>, and theme: <strong id="theme">Vintage Elegance</strong></p>
-    </div>
+    <h1>Event Theme Recommendation</h1>
+    <form id="recommendationForm" action="/recommend" method="POST">
+        <label for="formality">How formal is your event?</label>
+        <select id="formality" name="formality" required>
+            <option value="CASUAL">Casual</option>
+            <option value="SEMI_FORMAL">Semi-formal</option>
+            <option value="FORMAL">Formal</option>
+        </select>
 
-    <div class="recommendation" id="recommendation-list">
-        <!-- Recommendation Item -->
-        <div class="recommendation-item">
-            <img src="assets/img/portfolio/1.jpg" alt="Vintage Wedding Table Setup">
-            <div class="details">
-                <h3>Vintage Wedding Table</h3>
-                <p>Elegant table setup with rustic charm and floral accents.</p>
-            </div>
-        </div>
+        <label for="decor">What's your ideal decor element?</label>
+        <select id="decor" name="decor" required>
+            <option value="FLOWERS">Flowers</option>
+            <option value="CANDLES">Candles</option>
+            <option value="LIGHTS">Lights</option>
+            <option value="DRAPES">Drapes</option>
+        </select>
 
-        <div class="recommendation-item">
-            <img src="assets/img/portfolio/2.jpg" alt="Rustic Ceremony Arch">
-            <div class="details">
-                <h3>Rustic Ceremony Arch</h3>
-                <p>Beautiful wooden arch with flowing fabric and floral decor.</p>
-            </div>
-        </div>
+        <label for="mood">How do you want guests to feel?</label>
+        <select id="mood" name="mood" required>
+            <option value="RELAXED">Relaxed</option>
+            <option value="ELEGANT">Elegant</option>
+            <option value="FUN">Fun</option>
+            <option value="INSPIRED">Inspired</option>
+        </select>
 
-        <div class="recommendation-item">
-            <img src="assets/img/portfolio/3.jpg" alt="Vintage Lounge Area">
-            <div class="details">
-                <h3>Vintage Lounge Area</h3>
-                <p>Cozy lounge area with antique furniture and vintage props.</p>
-            </div>
-        </div>
-        <!-- Add more items as needed -->
-    </div>
-</div>
-
-<div class="footer">
-    <p>&copy; 2024 Dream Decorations. All rights reserved.</p>
+        <button type="submit">Get Recommendation</button>
+    </form>
 </div>
 </body>
 </html>
