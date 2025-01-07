@@ -1,6 +1,6 @@
 <html xmlns:th="http://thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{layout}"> 
+        layout:decorate="~{layout}">
 <head>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -49,23 +49,23 @@
    $(document).ready(function () {
      $("#date").datepicker({
         dateFormat: "yy-mm-dd",
-        minDate: 0, 
+        minDate: 0,
         beforeShowDay: function (date) {
             const dateString = $.datepicker.formatDate("yy-mm-dd", date);
-            
+
             let isAvailable = false;
 
             $.ajax({
-                url: "/check-date-availability",  
+                url: "/check-date-availability",
                 type: "GET",
                 data: { date: dateString },
-                async: false, 
+                async: false,
                 success: function(response) {
-                    isAvailable = response;  
+                    isAvailable = response;
                 }
             });
 
-            return [isAvailable]; 
+            return [isAvailable];
         }
     });
 });
@@ -82,19 +82,19 @@
                 <label for="name">Your Name:</label>
                 <input type="text" id="name" name="name" th:field="*{name}" required />
                 <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></div>
-            
+
                 <label for="email">Your Email:</label>
                 <input type="text" id="email" name="email" th:field="*{email}" />
                 <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></div>
-            
+
                 <label for="phone">Phone Number:</label>
                 <input type="text" id="phone" name="phone" th:field="*{phone}" />
                 <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="error"></div>
-            
+
                 <label for="date">Select a Date:</label>
                 <input type="text" id="date" name="date" th:field="*{date}" />
                 <div th:if="${#fields.hasErrors('date')}" th:errors="*{date}" class="error"></div>
-            
+
                 <label for="theme">Theme:</label>
                 <select id="theme" name="theme" th:field="*{theme}">
                     <option value="christening">Christening</option>
@@ -103,14 +103,18 @@
                     <option value="other">Other type of party</option>
                 </select>
                 <div th:if="${#fields.hasErrors('theme')}" th:errors="*{theme}" class="error"></div>
-            
+
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" th:field="*{description}" rows="4" placeholder="Enter additional details about your event"></textarea>
+                <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error"></div>
+
                 <label for="address">Address:</label>
                 <textarea id="address" name="address" th:field="*{address}"></textarea>
                 <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error"></div>
-            
+
                 <button type="submit">Submit</button>
             </form>
-            
+
         </div>
     </section>
 </body>

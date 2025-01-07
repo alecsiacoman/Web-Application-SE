@@ -1,126 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Theme Recommendation</title>
-    <link rel="stylesheet" href="/styles.css">
-    <style>
-        /* Global Styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f7fc;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+<html
+        xmlns:th="http://thmyelead.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+<body layout:fragment="body" id="page-top">
+<div class="container text-center mt-5" style="padding-top: 100px; padding-bottom: 100px;">
+    <h1 style="color: #5F9EA0; font-family: 'Arial', sans-serif;">Event Theme Recommendation</h1>
+    <form id="recommendationForm" action="/recommend" method="POST" style="margin-top: 30px;">
+        <div style="margin-bottom: 20px;">
+            <label for="formality" style="font-size: 1.1em; font-weight: bold; color: #4A4A4A; margin-bottom: 8px; display: block;">
+                How formal is your event?
+            </label>
+            <select id="formality" name="formality" required style="
+                width: 90%;
+                padding: 10px;
+                font-size: 0.9em;
+                border-radius: 6px;
+                border: 1px solid #ccc;
+                background-color: #f9f9f9;
+                color: #333;">
+                <option value="CASUAL">Casual</option>
+                <option value="SEMI_FORMAL">Semi-formal</option>
+                <option value="FORMAL">Formal</option>
+            </select>
+        </div>
 
-        .container {
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            max-width: 500px;
-            width: 100%;
-        }
+        <div style="margin-bottom: 20px;">
+            <label for="decor" style="font-size: 1.1em; font-weight: bold; color: #4A4A4A; margin-bottom: 8px; display: block;">
+                What's your ideal decor element?
+            </label>
+            <select id="decor" name="decor" required style="
+                width: 90%;
+                padding: 10px;
+                font-size: 0.9em;
+                border-radius: 6px;
+                border: 1px solid #ccc;
+                background-color: #f9f9f9;
+                color: #333;">
+                <option value="FLOWERS">Flowers</option>
+                <option value="CANDLES">Candles</option>
+                <option value="LIGHTS">Lights</option>
+                <option value="DRAPES">Drapes</option>
+            </select>
+        </div>
 
-        h1 {
-            text-align: center;
-            font-size: 2em;
-            margin-bottom: 20px;
-            color: #5F9EA0;
-        }
+        <div style="margin-bottom: 20px;">
+            <label for="mood" style="font-size: 1.1em; font-weight: bold; color: #4A4A4A; margin-bottom: 8px; display: block;">
+                How do you want guests to feel?
+            </label>
+            <select id="mood" name="mood" required style="
+                width: 90%;
+                padding: 10px;
+                font-size: 0.9em;
+                border-radius: 6px;
+                border: 1px solid #ccc;
+                background-color: #f9f9f9;
+                color: #333;">
+                <option value="RELAXED">Relaxed</option>
+                <option value="ELEGANT">Elegant</option>
+                <option value="FUN">Fun</option>
+                <option value="INSPIRED">Inspired</option>
+            </select>
+        </div>
 
-        label {
-            font-size: 1.1em;
-            margin-bottom: 8px;
-            display: block;
-            color: #4A4A4A;
-        }
-
-        select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            font-size: 1em;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            transition: border-color 0.3s;
-        }
-
-        select:focus {
-            border-color: #5F9EA0;
-            outline: none;
-        }
-
-        button {
+        <button type="submit" style="
             background-color: #5F9EA0;
             color: white;
-            padding: 12px 20px;
+            padding: 12px;
+            font-size: 1em;
             border: none;
             border-radius: 6px;
-            font-size: 1.1em;
-            width: 100%;
+            width: 90%;
             cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #5F9EA0;
-        }
-
-        .footer {
-            text-align: center;
-            font-size: 0.9em;
-            margin-top: 20px;
-            color: #888;
-        }
-
-        /* Media Query for Small Screens */
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.5em;
-            }
-
-            button {
-                font-size: 1em;
-            }
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-    <h1>Event Theme Recommendation</h1>
-    <form id="recommendationForm" action="/recommend" method="POST">
-        <label for="formality">How formal is your event?</label>
-        <select id="formality" name="formality" required>
-            <option value="CASUAL">Casual</option>
-            <option value="SEMI_FORMAL">Semi-formal</option>
-            <option value="FORMAL">Formal</option>
-        </select>
-
-        <label for="decor">What's your ideal decor element?</label>
-        <select id="decor" name="decor" required>
-            <option value="FLOWERS">Flowers</option>
-            <option value="CANDLES">Candles</option>
-            <option value="LIGHTS">Lights</option>
-            <option value="DRAPES">Drapes</option>
-        </select>
-
-        <label for="mood">How do you want guests to feel?</label>
-        <select id="mood" name="mood" required>
-            <option value="RELAXED">Relaxed</option>
-            <option value="ELEGANT">Elegant</option>
-            <option value="FUN">Fun</option>
-            <option value="INSPIRED">Inspired</option>
-        </select>
-
-        <button type="submit">Get Recommendation</button>
+            transition: background-color 0.3s;">
+            Get Recommendation
+        </button>
     </form>
 </div>
 </body>

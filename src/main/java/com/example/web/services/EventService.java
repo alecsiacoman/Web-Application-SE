@@ -18,8 +18,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 @Service
 public class EventService {
     private final ObjectMapper objectMapper;
-    private static final String REQUEST_JSON_PATH = "web/src/main/resources/data/request-events.json";
-    private static final String BOOKED_JSON_PATH = "web/src/main/resources/data/booked-events.json";
+    private static final String REQUEST_JSON_PATH = "src/main/resources/data/request-events.json";
+    private static final String BOOKED_JSON_PATH = "src/main/resources/data/booked-events.json";
     private List<EventRequest> eventRequests;
     private List<EventRequest> bookedEvents;
 
@@ -83,6 +83,11 @@ public class EventService {
         }
         if (eventRequest.getTheme() == null || eventRequest.getTheme().isEmpty()) {
             System.err.println("Validation failed: Theme is required.");
+            return false;
+        }
+        // New validation for description
+        if (eventRequest.getDescription() == null || eventRequest.getDescription().isEmpty()) {
+            System.err.println("Validation failed: Description is required.");
             return false;
         }
         if (eventRequest.getAddress() == null || eventRequest.getAddress().isEmpty()) {

@@ -27,6 +27,10 @@ public class EventRequest {
     @NotBlank(message = "Theme is required!")
     private String theme;
 
+    @NotBlank(message = "Description is required!") // Add validation for description
+    @Size(min = 5, max = 500, message = "Description must be between 5 and 500 characters") // Example size constraint
+    private String description; // New field for event description
+
     @NotBlank(message = "Address is required!")
     private String address;
 
@@ -42,6 +46,8 @@ public class EventRequest {
     public void setDate(String date) { this.date = date; }
     public String getTheme() { return theme; }
     public void setTheme(String theme) { this.theme = theme; }
+    public String getDescription() { return description; } // Getter for description
+    public void setDescription(String description) { this.description = description; } // Setter for description
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
 
@@ -53,6 +59,7 @@ public class EventRequest {
                 ", phone='" + phone + '\'' +
                 ", date='" + date + '\'' +
                 ", theme='" + theme + '\'' +
+                ", description='" + description + '\'' + // Include description in toString
                 ", address='" + address + '\'' +
                 '}';
     }

@@ -13,6 +13,7 @@
                     <p class="card-text" th:text="'Phone: ' + ${eventRequest.phone}"></p>
                     <p class="card-text" th:text="'Date: ' + ${eventRequest.date}"></p>
                     <p class="card-text" th:text="'Theme: ' + ${eventRequest.theme}"></p>
+                    <p class="card-text" th:text="'Description: ' + ${eventRequest.description}"></p>
                     <p class="card-text" th:text="'Address: ' + ${eventRequest.address}"></p>
                     <div class="d-flex">
                         <button class="btn btn-success me-2"
@@ -36,6 +37,7 @@
                     <p class="card-text" th:text="'Phone: ' + ${bookedEvent.phone}"></p>
                     <p class="card-text" th:text="'Date: ' + ${bookedEvent.date}"></p>
                     <p class="card-text" th:text="'Theme: ' + ${bookedEvent.theme}"></p>
+                    <p class="card-text" th:text="'Description: ' + ${bookedEvent.description}"></p>
                     <p class="card-text" th:text="'Address: ' + ${bookedEvent.address}"></p>
                     <button class="btn btn-success me-2"
                         th:onclick="|handleAction(${bookedEvent.id}, 'finish')|"> 
