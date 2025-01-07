@@ -1,5 +1,8 @@
 package com.example.web.models;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class TeamMember {
     private String name;
     private String quote;

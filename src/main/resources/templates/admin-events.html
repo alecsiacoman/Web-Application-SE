@@ -1,0 +1,80 @@
+<html
+        xmlns:th="http://thmyelead.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+<body layout:fragment="body" id="page-top">
+    <div class="container">
+        <h1 class="my-4">Event Requests</h1>
+        <div th:each="eventRequest : ${eventRequest}">
+            <div th:id="'event-' + ${eventRequest.id}" class="card my-3">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="'Name: ' + ${eventRequest.name}"></h5>
+                    <p class="card-text" th:text="'Email: ' + ${eventRequest.email}"></p>
+                    <p class="card-text" th:text="'Phone: ' + ${eventRequest.phone}"></p>
+                    <p class="card-text" th:text="'Date: ' + ${eventRequest.date}"></p>
+                    <p class="card-text" th:text="'Theme: ' + ${eventRequest.theme}"></p>
+                    <p class="card-text" th:text="'Address: ' + ${eventRequest.address}"></p>
+                    <div class="d-flex">
+                        <button class="btn btn-success me-2"
+                        th:onclick="|handleAction(${eventRequest.id}, 'accept')|"> 
+                            Accept 
+                        </button>
+                            <button class="btn btn-danger" 
+                            th:onclick="|handleAction(${eventRequest.id}, 'decline')|">
+                            Decline
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <span></span>
+        <div th:each="bookedEvent : ${bookedEvent}">
+            <div th:id="'event-' + ${bookedEvent.id}" class="card my-3">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="'Name: ' + ${bookedEvent.name}"></h5>
+                    <p class="card-text" th:text="'Email: ' + ${bookedEvent.email}"></p>
+                    <p class="card-text" th:text="'Phone: ' + ${bookedEvent.phone}"></p>
+                    <p class="card-text" th:text="'Date: ' + ${bookedEvent.date}"></p>
+                    <p class="card-text" th:text="'Theme: ' + ${bookedEvent.theme}"></p>
+                    <p class="card-text" th:text="'Address: ' + ${bookedEvent.address}"></p>
+                    <button class="btn btn-success me-2"
+                        th:onclick="|handleAction(${bookedEvent.id}, 'finish')|"> 
+                            Done 
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       function handleAction(id, action) {
+            const confirmation = confirm(`Are you sure you want to ${action} this event?`);
+            if (confirmation) {
+                const url = `/admin-events/${action}/${id}`;
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === "success") {
+                            const eventElement = document.getElementById(`event-${id}`);
+                        if (eventElement) {
+                            eventElement.remove(); // Safely remove if element exists
+                            console.log(`Successfully ${action}ed event with ID: ${id}`);
+                        } else {
+                            console.error(`Element with ID event-${id} not found.`);
+                        }
+                    }
+                    })
+                    .catch(error => {
+                        console.error('Error occurred:', error);
+                    });
+            }
+        }
+    </script>
+
+</body>
+</html>

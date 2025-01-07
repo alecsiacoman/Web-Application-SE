@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://thmyelead.org"
+      xmlns:th="http://www.thymeleaf.org"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootrstrap-icons.css", rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link th:href="@{/css/styles.css}", rel="stylesheet"/>
     <title layout:title-pattern="${CONTENT_TITLE} - ${LAYOUT_TITLE}">Dream Decorations</title>
 </head>
@@ -17,12 +18,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+<<<<<<< HEAD
                 <li class="nav-item"><a class="nav-link" href="/recommendations">Recommendations</a></li>
-                <li class="nav-item"><a class="nav-link" href="/">Hauptseite</a></li>
-                <li class="nav-item"><a class="nav-link" href="/about">Uber uns</a></li>
-                <li class="nav-item"><a class="nav-link" href="/gallery">Galerie</a></li>
-                <li class="nav-item"><a class="nav-link" href="/services">Duebstleistungen</a></li>
-                <li class="nav-item"><a class="nav-link" href="/contact">Kontaktiere uns</a></li>
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/gallery">Gallery</a></li>
+                <li class="nav-item"><a class="nav-link" href="/book-event">Book Event</a></li>
+                <li  class="nav-item"><a class="nav-link" href="/admin-events">Admin Events</a></li>
+                <li class="nav-item"><a class="nav-link" href="/contact">Contact us</a></li>
                 <li class="nav-item"><a class="nav-link" href="/admin">Admin</a></li>
             </ul>
         </div>
@@ -38,7 +40,7 @@
             <div class="col-lg-4 text-lg-start">Copyright &copy; 2024 Dream Decorations. Alle Rechte vorbehalten</div>
             <div class="col-lg-4 my-3 my-lg-0">
                 <a class="btn btn-dark btn-social mx-2" href="https://www.facebook.com/profile.php?id=61556009182374&locale=ro_RO" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-dark btn-social mx-2" href="https://www.instagram.com/dreamdecorations_rastatt/" aria-label="Instagram"><i class="fab fa-instagram-in"></i></a>
+                <a class="btn btn-dark btn-social mx-2" href="https://www.instagram.com/dreamdecorations_rastatt/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             </div>
             <div class="col-lg-4 text-lg-end">
                 <a class="link-dark text-decoration-none me-3" href="#!">Privacy Policy</a>
