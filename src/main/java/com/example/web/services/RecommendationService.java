@@ -38,7 +38,6 @@ public class RecommendationService {
     private String generateThemeName(Formality formality, Decor decor, Mood mood) {
         String themeName = "";
 
-        // Creating a memorable and catchy theme name
         themeName = switch (formality) {
             case CASUAL -> "Casual Charm";
             case SEMI_FORMAL -> "Semi-Formal Elegance";
@@ -77,7 +76,7 @@ public class RecommendationService {
     // Method to generate candle recommendations based on mood
     private String generateCandleRecommendation(Mood mood) {
         return switch (mood) {
-            case RELAXED -> "Soft, flickering lanterns with warm candles line the pathways, guiding guests through a tranquil, evening garden. Simple wooden tables adorned with linen tablecloths host single candles in rustic jars, creating pools of soft, golden light.";
+            case RELAXED -> "Soft, flickering lanterns with warm candles line the pathways, guiding guests through a calm, evening garden. Simple wooden tables adorned with linen tablecloths host single candles in rustic jars, creating pools of soft, golden light.";
             case ELEGANT -> "Tall, slender candle holders made of fine crystal or gold host soft, flickering candles that cast a warm glow across the room. The candles are arranged in clusters on long, luxurious satin table runners, with delicate greenery accents winding around the holders.";
             case FUN -> "Add a playful twist with vibrant candles housed in colorful holders—bright reds, turquoise blues, and neon pinks add a joyful and fun energy to the space. Mismatched candle holders and creative lighting effects will provide a quirky and festive touch.";
             case INSPIRED -> "Create artistic candle setups with varying heights, creative holders, and intricate details. Think of candles inside glass jars with unique engravings, or floating candles in water-filled containers for a surreal and imaginative look.";
