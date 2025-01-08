@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class AdminController {
@@ -16,7 +17,7 @@ public class AdminController {
     @GetMapping("/login-as-admin")
     public String loginAsAdmin(HttpSession session){
         session.setAttribute("role", "admin");
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @GetMapping("/sign-out")

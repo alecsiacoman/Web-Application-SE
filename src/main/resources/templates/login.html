@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Secure Application</title>
+</head>
+<body>
+
+<!-- Login Section -->
+<div id="login-section">
+    <h1>Login</h1>
+    <input type="text" id="username" placeholder="Enter username" />
+    <button onclick="login()">Login</button>
+</div>
+
+<!-- Protected Data Section -->
+<div id="protected-data-section" style="display:none;">
+    <h1>Protected Data</h1>
+    <button onclick="fetchProtectedData()">Get Protected Data</button>
+    <pre id="protected-data"></pre>
+    <button onclick="logout()">Logout</button>
+</div>
+
+<script>
+    async function login() {
+        const username = document.getElementById('username').value;
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username }),
+        });
+
+        if (response.ok) {
+            const token = await response.text();
+            localStorage.setItem('jwtToken', token);
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('protected-data-section').style.display = 'block';
+            alert('Login successful!');
+        } else {
+            alert('Login failed!');
+        }
+    }
+
+    async function fetchProtectedData() {
+        const token = localStorage.getItem('jwtToken');
+        if (!token) {
+            alert('You need to login first!');
+            return;
+        }
+
+        const response = await fetch('/api/events', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            document.getElementById('protected-data').textContent = JSON.stringify(data, null, 2);
+        } else {
+            alert('Access denied!');
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('jwtToken');
+        document.getElementById('login-section').style.display = 'block';
+        document.getElementById('protected-data-section').style.display = 'none';
+        alert('Logged out!');
+    }
+</script>
+
+</body>
+</html>
