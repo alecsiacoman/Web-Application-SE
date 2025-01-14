@@ -26,4 +26,5 @@ public class AdminController {
             session.setAttribute("role", "client");
         return "redirect:/";
     }
+
 }
