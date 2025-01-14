@@ -1,15 +1,22 @@
 package com.example.web.models;
 
+import lombok.Builder;
 
+@Builder
 public class Users {
     private Long id;
     private String username;
     private String password;
+    private Role role;
 
-    public Users(Long id, String username, String password) {
+    public Users(Long id, String username, String password, Role role) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.role = role;
+    }
+
+    public Users() {
     }
 
     public Long getId() {
@@ -36,12 +43,21 @@ public class Users {
         this.password = password;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "Users{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", role=" + role +
                 '}';
     }
 }
