@@ -1,0 +1,125 @@
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <style>
+        /* Add basic styling to the form */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem; /* Add spacing between form fields */
+            max-width: 400px; /* Optional: set a max width for the form */
+            margin: 0 auto; /* Optional: center the form */
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, textarea {
+            padding: 0.5rem;
+            font-size: 1rem;
+            width: 100%; /* Make inputs full width */
+            box-sizing: border-box; /* Ensure padding doesn’t increase width */
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+
+    <script>
+        async function login() {
+            console.log("HEI:");
+            const username = document.getElementById('username').value;
+            console.log("username:  " + username);
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username }),
+            });
+
+            console.log("RESPONSE:");
+            console.log(response);
+
+            if (response.ok) {
+                const token = await response.text();
+                localStorage.setItem('jwtToken', token);
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('protected-data-section').style.display = 'block';
+                alert('Login successful!');
+            } else {
+                alert('Login failed!');
+            }
+        }
+
+        async function fetchProtectedData() {
+            const token = localStorage.getItem('jwtToken');
+            if (!token) {
+                alert('You need to login first!');
+                return;
+            }
+
+            const response = await fetch('/api/events', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById('protected-data').textContent = JSON.stringify(data, null, 2);
+            } else {
+                alert('Access denied!');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('jwtToken');
+            document.getElementById('login-section').style.display = 'block';
+            document.getElementById('protected-data-section').style.display = 'none';
+            alert('Logged out!');
+        }
+    </script>
+
+
+
+</head>
+<body layout:fragment="body" id="page-top">
+<section class="page-section bg-light" id="portfolio">
+    <div id="login-section">
+        <h1>Login</h1>
+        <input type="text" id="username" placeholder="Enter username" />
+        <button onclick="login()">Login</button>
+    </div>
+
+    <!-- Protected Data Section -->
+<!--    <div id="protected-data-section" style="display:none;">-->
+<!--        <h1>Protected Data</h1>-->
+<!--        <button onclick="fetchProtectedData()">Get Protected Data</button>-->
+<!--        <pre id="protected-data"></pre>-->
+<!--        <button onclick="logout()">Logout</button>-->
+<!--    </div>-->
+</section>
+</body>
+</html>
