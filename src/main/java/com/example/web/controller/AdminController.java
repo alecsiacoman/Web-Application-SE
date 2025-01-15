@@ -8,22 +8,31 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class AdminController {
 
+//    @GetMapping("/admin")
+//    public String showAdminPage(HttpSession session){
+//        return "admin";
+//    }
+
     @GetMapping("/admin")
-    public String showAdminPage(HttpSession session){
+    public String showAdminPage(HttpSession session) {
+        if (session.getAttribute("role") == null || !session.getAttribute("role").equals("admin")) {
+            return "redirect:/login";
+        }
         return "admin";
     }
 
     @GetMapping("/login-as-admin")
     public String loginAsAdmin(HttpSession session){
         session.setAttribute("role", "admin");
-        return "redirect:/";
+        return "redirect:/login";
     }
 
-    @GetMapping("/sign-out")
-    public String signOut(HttpSession session){
-        String role = (String) session.getAttribute("role");
-        if("admin".equals(role))
-            session.setAttribute("role", "client");
-        return "redirect:/";
-    }
+//    @GetMapping("/sign-out")
+//    public String signOut(HttpSession session){
+//        String role = (String) session.getAttribute("role");
+//        if("admin".equals(role))
+//            session.setAttribute("role", "client");
+//        return "redirect:/";
+//    }
+
 }
