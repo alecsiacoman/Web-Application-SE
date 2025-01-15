@@ -57,15 +57,15 @@ public class EventController {
 //
 //    }
 
-    @GetMapping("/admin-events")
-    public String showAdminEventsPage(HttpSession session) {
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println(session.getAttribute("role"));
-        if ("admin".equals(session.getAttribute("role"))) {
-            return "admin-events";
-        }
-        return "redirect:/login";
-    }
+//    @GetMapping("/admin-events")
+//    public String showAdminEventsPage(HttpSession session) {
+////        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
+////        System.out.println(session.getAttribute("role"));
+////        if ("admin".equals(session.getAttribute("role"))) {
+//            return "admin-events";
+////        }
+////        return "redirect:/login";
+//    }
 
     @PostMapping("/admin-events/accept/{id}")
     @ResponseBody

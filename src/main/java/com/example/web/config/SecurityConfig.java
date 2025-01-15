@@ -32,22 +32,24 @@ public class SecurityConfig {
                 .csrf(customizer -> customizer.disable())
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/", "/home", "/about", "/access-denied",
-                                "/book-event", "/contact", "/gallery", "/layout", "/login", "/services", "/admin", "login", "register", "users", "/admin-events",
+                                "/book-event", "/contact", "/gallery", "/layout", "/login", "/services", "/admin", "login", "register", "users",
                                 "/css/**", "/js/**", "/img/**", "/assets/**")
                         .permitAll()
-                        .requestMatchers("/admin-events/**").hasRole("ADMIN")
+                        //.requestMatchers("/admin-events/**").hasRole("ADMIN")
                         .anyRequest()
                         .authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login") // Specify the custom login page URL
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/admin-events", true)// Specify the custom login page URL
                         .permitAll()         // Allow everyone to access the login page
                 )
-//                .logout(logout -> logout
-//                        .logoutUrl("/logout") // Optional: customize logout URL
-//                        .logoutSuccessUrl("/") // Redirect after logout
-//                )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+              .logout(logout -> logout
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/")
+                    .permitAll()
+            )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
